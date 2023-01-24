@@ -1,0 +1,25 @@
+describe("fundtransfer",()=>{
+    beforeEach(()=>{
+        cy.login('9847659504','Test@thaili1')
+        cy.wait(2000)
+    })
+    it("fundtransfer", ()=> {
+    
+        cy.get(':nth-child(2) > .box-front > div > .icon').click()
+        cy.get("#MobileNumber").type('9823299998')
+        cy.wait(2000)
+        cy.get("#Amount").type('10')
+        cy.get("#Remarks").type('test')
+        cy.get('input[class="btn btn__primary"]').click()
+        cy.get("#btnConfirm").click()
+        cy.wait(2000)
+        cy.get("#pin1").type("1")
+        cy.get("#pin2").type("1")
+        cy.get("#pin3").type("1")
+        cy.get("#pin4").type("1")
+        cy.wait(2000)
+        cy.get('#btnConfirmmodal').click()
+        cy.wait(2000)
+        cy.get('.success__content > .btn').click()
+    })  
+})
