@@ -31,6 +31,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
+//Admin
 Cypress.Commands.add("adminLogin", (username, password)=>{
   cy.visit("http://uatthailiadmin.digihub.com.np/")
   cy.get('#user_name').type(username)
@@ -38,6 +39,9 @@ Cypress.Commands.add("adminLogin", (username, password)=>{
   cy.contains('Log In').click()
 
 })
+
+//WEB
+
 Cypress.Commands.add("login", (username, password)=>{
   cy.visit("http://uatthaili.digihub.com.np/")
   cy.get('#user_name').type(username)
@@ -95,6 +99,7 @@ Cypress.Commands.add("DateSelect", (i, id, date) => {
     .get(".the-datepicker__calendar-body").eq(i).contains(date.split("-")[2]).click()
 });
 
+//MerchantAdd
 Cypress.Commands.add("ADDateSelect", (id, date) => {
   //date
   cy.get(id).click();
@@ -118,19 +123,6 @@ Cypress.Commands.add("DateSelectNepali", (id, date) => {
   //date
 });
 
-// require('cypress-xpath');
-
-// require('cypress-cucumber-preprocessor').default
-// Cypress.Commands.add('login', (text, password) => {
-// cy.visit("")
-
-// cy.get("#user_name").type(text)
-// cy.xpath("//input[@name='user_password']").type(password)
-// cy.get('#loginform > .btn').click()
-
-// })
-
-
 
 
 Cypress.Commands.addAll({mpin})
@@ -152,11 +144,25 @@ Cypress.Commands.add("DateSelect", (i,id, year, month, date) => {
  * year, month and date passes each values
  * USE cy.DateSelectNepali(0,'.DOB',2022,01,09) when date picker is required
 */
-Cypress.Commands.add("DateSelectNepali", (id, year, month, date) => {
-  //date
-  cy.get(id).click();
-  cy.get("#ndp-year-select").select(year);
-  cy.get("#ndp-month-select").select(month-1);
-  cy.get("#ndp-table-div tbody tr td a").eq(date-1).click();
-  //date
-});
+// Cypress.Commands.add("DateSelectNepali", (id, year, month, date) => {
+//   //date
+//   cy.get(id).click();
+//   cy.get("#ndp-year-select").select(year);
+//   cy.get("#ndp-month-select").select(month-1);
+//   cy.get("#ndp-table-div tbody tr td a").eq(date-1).click();
+//   //date
+// });
+
+
+
+// require('cypress-xpath');
+
+// require('cypress-cucumber-preprocessor').default
+// Cypress.Commands.add('login', (text, password) => {
+// cy.visit("")
+
+// cy.get("#user_name").type(text)
+// cy.xpath("//input[@name='user_password']").type(password)
+// cy.get('#loginform > .btn').click()
+
+// })

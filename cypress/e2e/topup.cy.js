@@ -1,70 +1,96 @@
-import { c } from "../../support/constants"
-/**
-* From support/constants.js file import
-    * walletUname
-    * bankUname
-    * pwd1
-    * tpin1 [linked user tpin]
-    * tpin2 [wallet user tpin]
- */
-describe('Topup', () => {
-  //Wallet topup
-  it('Topup mobile number wallet', () => {
-    //declare variables for username, pwd and tpin which are subject to be changed
-    //some variables are used from constants.js file
-    var uname = c.walletUname //mobile number
-    var pwd = c.pwd1 //password
-    var topupNo = c.ntc // top up number
-    var tpin = c.tpin2 //tpin
-    //add amount
-    var amt = '10'
-    //import login 
-    cy.login('9847659504','Test@1234')
-    //visit mobile topup
-    cy.visit('/Payment/MobileTopUp')
-    //add mobile number and amount
-    cy.xpath(`//input[@name='MobileNo']`).type(topupNo).wait(1000)
-    cy.xpath(`//input[@name='Amount']`).type(amt)
+//import { c } from "../../support/constants"
+describe('topup', () => {
+  it('Positive topup', () => {
+    cy.login('9847659504', 'Admin@123')
+    cy.visit(`http://uatthaili.digihub.com.np/Payment/MobileTopUp`)
 
-    //screenshot of form
-    cy.screenshot('Topup/Wallet/1Form')
-    //click confirm button
-    cy.xpath(`//button[@id='confirmButton']`).dblclick().wait(1000) 
-
-    //screenshot of details
-    cy.screenshot('Topup/Wallet/2Details')  
-
-    //goto confirm page 
-    cy.xpath(`//button[@id='btnConfirm']`).click()
-    //add tpin and submit
-    cy.xpath(`//input[@type='password']`).eq(0).type(tpin)
-    //click confirm
-    cy.xpath(`//button[@id='btnConfirmmodal']`).click().wait(1000)
-    
-    //screenshot of confirmation
-    cy.screenshot('Topup/Wallet/3Confirmation')
-    //___________________
-    //goto dashboard
-    //get name for phonenumber provider
-    cy.xpath(`//p[@class='success__heading center']`).then(title=>{
-      cy.xpath(`//p[@class='success__heading center']`).should('have.text',title[0].innerText)
-      cy.xpath(`//table[@class='successdetail']//td`).eq(3).then(txn=>{
-        cy.xpath(`//table[@class='successdetail']//td`).eq(3).should('have.text',txn[0].innerText)
-       //Goto Statement
-        cy.xpath(`//a[@name='home']`).click().wait(100)
-        cy.xpath(`//span[@id='close-menu']`).click({force:true})
-        cy.xpath(`//div[@class='dropdown__box']`).contains('Statement').click()
-        //verify in statement
-        //e.g 	NT Mobile Prepaid (GSM) 9860526655 TID#100000046663
-        var txnRemark=title[0].innerText+' '+topupNo+' '+'TID#'+txn[0].innerText
-        cy.xpath(`//td[@class='trxn__remarks']`).eq(0).contains(txnRemark)
-        
-        //screenshot of statement
-        cy.screenshot('Topup/Wallet/4Statement')
+    cy.get(`#MobileNo`).type(`9808111444`)
+    .wait(2000)
+    cy.get('#PaymentType')
+      .select('Wallet', {
+        force: true
       })
-    })
+      
+      cy.get("#Amount").type('20')
+      cy.contains('PROCEED').click()
+      cy.get('#btnConfirm').click()
+      cy.get('input[type="password"]').eq(0).type('1111')
+      cy.get("#btnConfirmmodal").click()
+      cy.get('.success__content > .btn').click()
+     // cy.get()
+    //cy.get('#PaymentType').select('Nepal Investment Mega Bank Ltd', { force: true })    
+
+
   })
 })
+
+
+// /**
+// * From support/constants.js file import
+//     * walletUname
+//     * bankUname
+//     * pwd1
+//     * tpin1 [linked user tpin]
+//     * tpin2 [wallet user tpin]
+//  */
+// describe('Topup', () => {
+//   //Wallet topup
+//   it('Topup mobile number wallet', () => {
+//     //declare variables for username, pwd and tpin which are subject to be changed
+//     //some variables are used from constants.js file
+//     var uname = c.walletUname //mobile number
+//     var pwd = c.pwd1 //password
+//     var topupNo = c.ntc // top up number
+//     var tpin = c.tpin2 //tpin
+//     //add amount
+//     var amt = '10'
+//     //import login 
+//     cy.login('9847659504','Test@1234')
+//     //visit mobile topup
+//     cy.visit('/Payment/MobileTopUp')
+//     //add mobile number and amount
+//     cy.xpath(`//input[@name='MobileNo']`).type(topupNo).wait(1000)
+//     cy.xpath(`//input[@name='Amount']`).type(amt)
+
+//     //screenshot of form
+//     cy.screenshot('Topup/Wallet/1Form')
+//     //click confirm button
+//     cy.xpath(`//button[@id='confirmButton']`).dblclick().wait(1000) 
+
+//     //screenshot of details
+//     cy.screenshot('Topup/Wallet/2Details')  
+
+//     //goto confirm page 
+//     cy.xpath(`//button[@id='btnConfirm']`).click()
+//     //add tpin and submit
+//     cy.xpath(`//input[@type='password']`).eq(0).type(tpin)
+//     //click confirm
+//     cy.xpath(`//button[@id='btnConfirmmodal']`).click().wait(1000)
+
+//     //screenshot of confirmation
+//     cy.screenshot('Topup/Wallet/3Confirmation')
+//     //___________________
+//     //goto dashboard
+//     //get name for phonenumber provider
+//     cy.xpath(`//p[@class='success__heading center']`).then(title=>{
+//       cy.xpath(`//p[@class='success__heading center']`).should('have.text',title[0].innerText)
+//       cy.xpath(`//table[@class='successdetail']//td`).eq(3).then(txn=>{
+//         cy.xpath(`//table[@class='successdetail']//td`).eq(3).should('have.text',txn[0].innerText)
+//        //Goto Statement
+//         cy.xpath(`//a[@name='home']`).click().wait(100)
+//         cy.xpath(`//span[@id='close-menu']`).click({force:true})
+//         cy.xpath(`//div[@class='dropdown__box']`).contains('Statement').click()
+//         //verify in statement
+//         //e.g 	NT Mobile Prepaid (GSM) 9860526655 TID#100000046663
+//         var txnRemark=title[0].innerText+' '+topupNo+' '+'TID#'+txn[0].innerText
+//         cy.xpath(`//td[@class='trxn__remarks']`).eq(0).contains(txnRemark)
+
+//         //screenshot of statement
+//         cy.screenshot('Topup/Wallet/4Statement')
+//       })
+//     })
+//   })
+// })
 
 // describe("topup", () => {
 
